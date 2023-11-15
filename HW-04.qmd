@@ -12,7 +12,7 @@ How do daily opening prices, trading volumes, and historical trends influence th
 The given dataset contains following attributes:
 
 | variable     | description                                                                                                                                                                                                                       |
-|------------------|------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | stock_symbol | stock_symbol                                                                                                                                                                                                                      |
 | date         | date                                                                                                                                                                                                                              |
 | open         | The price at market open.                                                                                                                                                                                                         |
@@ -52,25 +52,20 @@ theme_set(theme_bw() + theme(legend.position = "top"))
 # Load dataset
 data <- read.csv("big_tech_stock_prices.csv")
 
-
-# Parameters
-seed <- 1            # seed for random number generation 
 numInstances <- nrow(data) # number of data instances
 
-# Set seed
-set.seed(seed)
 
 X <- data$open
-y_true <- data$adj_close
-y <- y_true + matrix(rnorm(numInstances), ncol=1) # Adding Guassian Noise
+y <- data$adj_close
 
-# Plot with a regression line
-ggplot(data, aes(x = X, y = y)) +
-  geom_point(color = "black") +
-  geom_smooth(method = "lm",  color = "blue", linewidth = 1) +
+
+# Plot
+ggplot() +
+  geom_point(aes(x=X, y=y), color="black") +
+  geom_line(aes(x=X, y=y), color="blue", linewidth=1) +
   ggtitle('Relationship between Open Price and Adjusted Closing Price') +
-  xlab('Open Price') +
-  ylab('Adjusted Closing Price')
+  xlab('Opening price') +
+  ylab('Closing price')
 ```
 
 Here we can see the strong linear relationship between the opening price and adjusted closing price, as the opening price increases the closing price also increases.
@@ -381,7 +376,7 @@ Model 1 also has the lowest test error; later on, as the number of attributes in
 
 ## **Ridge Regression**
 
-It is a method used for the tuning of the model, which helps in dealing with the problem of multicollinearity between the independent variables.
+It is a method used for the tuning of the model, which helps in dealing with the problem of multi collinearity between the independent variables.
 
 ```{r}
 # Convert to data frame
@@ -550,6 +545,8 @@ ridge_results <- tibble(Model = "RidgeCV",
 
 cat("Selected alpha =", best_params$penalty, "\n")
 ```
+
+Here we can see that Sum of Absolute Weights has reduced to 82.58 only, indicating that Lasso has reduced the complexity of the model by shrinking some coefficients to exactly zero.
 
 ```{r}
 all_results <- bind_rows(results, ridge_results)
