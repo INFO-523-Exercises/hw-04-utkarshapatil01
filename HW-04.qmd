@@ -54,10 +54,8 @@ data <- read.csv("big_tech_stock_prices.csv")
 
 numInstances <- nrow(data) # number of data instances
 
-
 X <- data$open
 y <- data$adj_close
-
 
 # Plot
 ggplot() +
@@ -65,7 +63,7 @@ ggplot() +
   geom_line(aes(x=X, y=y), color="blue", linewidth=1) +
   ggtitle('Relationship between Open Price and Adjusted Closing Price') +
   xlab('Opening price') +
-  ylab('Closing price')
+  ylab('Adjusted closing price')
 ```
 
 Here we can see the strong linear relationship between the opening price and adjusted closing price, as the opening price increases the closing price also increases.
@@ -82,8 +80,6 @@ For this data set, multiple linear regression can be used to predict the adjuste
 # Train/test split
 numTrain <- 1000   # number of training instances
 numTest <- numInstances - numTrain
-
-set.seed(123) # For reproducibility
 
 data <- tibble(X = X, y = y)
 
@@ -212,23 +208,23 @@ X5 <- data1$volume
 # Create plots
 plot1 <- ggplot() +
   geom_point(aes(X, X2), color='black') +
-  xlab('X') + ylab('X2') +
-  ggtitle(sprintf("Correlation between X and X2 = %.4f", cor(X[-c((numInstances-numTest+1):numInstances)], X2[-c((numInstances-numTest+1):numInstances)])))
+  xlab('Opening Price') + ylab('Highest Price') +
+  ggtitle(sprintf("Correlation between Opening Price and Highest Price = %.4f", cor(X[-c((numInstances-numTest+1):numInstances)], X2[-c((numInstances-numTest+1):numInstances)])))
 
 plot2 <- ggplot() +
   geom_point(aes(X2, X3), color='black') +
-  xlab('X2') + ylab('X3') +
-  ggtitle(sprintf("Correlation between X2 and X3 = %.4f", cor(X2[-c((numInstances-numTest+1):numInstances)], X3[-c((numInstances-numTest+1):numInstances)])))
+  xlab('Highest Price') + ylab('Lowest Price') +
+  ggtitle(sprintf("Correlation between Highest Price and Lowest Price = %.4f", cor(X2[-c((numInstances-numTest+1):numInstances)], X3[-c((numInstances-numTest+1):numInstances)])))
 
 plot3 <- ggplot() +
   geom_point(aes(X3, X4), color='black') +
-  xlab('X3') + ylab('X4') +
-  ggtitle(sprintf("Correlation between X3 and X4 = %.4f", cor(X3[-c((numInstances-numTest+1):numInstances)], X4[-c((numInstances-numTest+1):numInstances)])))
+  xlab('Lowest Price') + ylab('Closing price') +
+  ggtitle(sprintf("Correlation between Lowest Price and Closing price = %.4f", cor(X3[-c((numInstances-numTest+1):numInstances)], X4[-c((numInstances-numTest+1):numInstances)])))
 
 plot4 <- ggplot() +
   geom_point(aes(X4, X5), color='black') +
-  xlab('X4') + ylab('X5') +
-  ggtitle(sprintf("Correlation between X4 and X5 = %.4f", cor(X4[-c((numInstances-numTest+1):numInstances)], X5[-c((numInstances-numTest+1):numInstances)])))
+  xlab('Closing price') + ylab('Volume') +
+  ggtitle(sprintf("Correlation between Closing price and Volume = %.4f", cor(X4[-c((numInstances-numTest+1):numInstances)], X5[-c((numInstances-numTest+1):numInstances)])))
 
 # Combine plots into a 2x2 grid
 grid.arrange(plot1, plot2, plot3, plot4, ncol=2)
