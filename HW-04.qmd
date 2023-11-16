@@ -12,7 +12,7 @@ How do daily opening prices, trading volumes, and historical trends influence th
 The given dataset contains following attributes:
 
 | variable     | description                                                                                                                                                                                                                       |
-|-------------------|-----------------------------------------------------|
+|--------------------|----------------------------------------------------|
 | stock_symbol | stock_symbol                                                                                                                                                                                                                      |
 | date         | date                                                                                                                                                                                                                              |
 | open         | The price at market open.                                                                                                                                                                                                         |
@@ -545,8 +545,6 @@ ridge_results <- tibble(Model = "RidgeCV",
 
 cat("Selected alpha =", best_params$penalty, "\n")
 ```
-
-Here we can see that Sum of Absolute Weights has reduced to 82.58 only, indicating that Lasso has reduced the complexity of the model by shrinking some coefficients to exactly zero.
 
 ```{r}
 all_results <- bind_rows(results, ridge_results)
